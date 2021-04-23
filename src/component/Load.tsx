@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 
 import LottieView from 'lottie-react-native';
 
-import loadAnimation from '../assets/animated-plant-load.json';
+import loadAnimation from '../assets/load.json';
 
 export function Load() {
   return (
