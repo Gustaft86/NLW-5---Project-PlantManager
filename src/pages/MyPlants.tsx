@@ -4,14 +4,16 @@ import {
   View,
   Text,
   Image,
+  Alert,
 } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
-import { PlantProps, loadPlant } from '../libs/storage';
+import { PlantProps, loadPlant, removePlant } from '../libs/storage';
 import { formatDistance } from 'date-fns';
 import { pt } from 'date-fns/locale';
 
 import { Header } from '../component/Header';
 import { PlantCardSecundary } from '../component/PlantCardSecundary';
+import { Load } from '../component/Load';
 
 import waterdrop from '../assets/waterdrop.png';
 
@@ -19,14 +21,47 @@ import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 
 export function MyPlants() {
-  const [myPlants, setMyPlants] = useState<PlantProps[]> ([]);
+  const [myPlants, setMyPlants] = useState<PlantProps[]>([]);
   const [loading, setLoading] = useState(true);
   const [nextWatered, setNextWatered] = useState<string>();
+
+  function handleRemove(plant: PlantProps) {
+    Alert.alert('Remover', `Deseja remover a ${plant.name}?`, [
+      {
+        text: 'Não 🙏',
+        style: 'cancel',
+      },
+      {
+        text: 'Sim 😢',
+        onPress: async () => {
+          try {
+            // const data = await AsyncStorage.getItem('@plantmanager:plants');
+            // const plants = data ? (JSON.parse(data) as StoragePlantProps) : {};
+
+            // delete plants[plant.id];
+            
+            // await AsyncStorage.setItem(
+            //   '@plantmanager:plants',
+            //   JSON.stringify(plants)
+            // );
+
+            await removePlant(plant.id);
+
+            setMyPlants((oldData) => (
+              oldData.filter((item) => item.id !== plant.id)
+            ));
+
+          } catch (error) {
+            Alert.alert('Não foi possível remover! 😢')
+          }
+        }
+      }
+    ]);
+  }
 
   useEffect(() => {
     async function loadStorageData() {
       const plantsStoraged = await loadPlant();
-
       const nextTime = formatDistance(
         new Date(plantsStoraged[0].dateTimeNotification).getTime(),
         new Date().getTime(),
@@ -42,6 +77,10 @@ export function MyPlants() {
     }
     loadStorageData();
   }, [])
+
+  if (loading) {
+    return <Load />
+  }
 
   return (
     <View style={ styles.container }>
@@ -67,7 +106,10 @@ export function MyPlants() {
           data={myPlants}
           keyExtractor={ (item) => String(item.id) }
           renderItem={ ({ item }) => (
-            <PlantCardSecundary data={item} />
+            <PlantCardSecundary
+              data={item}
+              handleRemove={() => handleRemove(item)}
+            />
           )}
           showsVerticalScrollIndicator={ false }
           contentContainerStyle={ { flex: 1} }

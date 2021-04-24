@@ -143,7 +143,7 @@ export function PlantSelected() {
           )}
           showsVerticalScrollIndicator={ false }
           numColumns={ 2 }
-          onEndReachedThreshold={0.1}
+          onEndReachedThreshold={0.2}
           onEndReached={ ({ distanceFromEnd }) => handleFetchMore(distanceFromEnd) }
           ListFooterComponent={
             loadingMore
