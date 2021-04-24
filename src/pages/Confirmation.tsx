@@ -56,7 +56,8 @@ export function Confirmation() {
           { subtitle }
         </Text>
         <View style={ styles.footer }>
-          <Button 
+          <Button
+            style={ styles.button }
             title={ buttonTitle } 
             onPress={ handleMoveOn }
           />
@@ -102,5 +103,12 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 50,
     marginTop: 20
-  }
+  },
+  button: {
+    width: '100%',
+    color: colors.white,
+    fontSize: 14,
+    fontWeight: 'bold',
+    textAlign: 'center'
+  },
 })

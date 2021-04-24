@@ -88,7 +88,8 @@ export function UserIdentification() {
                 onChangeText={handleInputChange}
               />
               <View style={styles.footer}>
-                <Button 
+                <Button
+                  style={styles.button}
                   title="Confirmar" 
                   onPress={handleSubmit} 
                 />
@@ -147,5 +148,12 @@ const styles = StyleSheet.create({
     marginTop: 40,
     width: '100%',
     paddingHorizontal: 20,
+  },
+  button: {
+    width: '100%',
+    color: colors.white,
+    fontSize: 14,
+    fontWeight: 'bold',
+    textAlign: 'center'
   },
 })

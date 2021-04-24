@@ -59,6 +59,10 @@ export function MyPlants() {
     ]);
   }
 
+  function handleDone(plant: PlantProps) {
+    // Criar logica para salvar quantidades de regadas por planta.
+  }
+
   useEffect(() => {
     async function loadStorageData() {
       const plantsStoraged = await loadPlant();
@@ -109,6 +113,7 @@ export function MyPlants() {
             <PlantCardSecundary
               data={item}
               handleRemove={() => handleRemove(item)}
+              handleDone={() => handleDone(item)}
             />
           )}
           showsVerticalScrollIndicator={ false }
